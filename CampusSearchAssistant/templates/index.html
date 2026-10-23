@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VFSTR Campus Search Assistant</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">VFSTR</div>
+        <div class="header-text">
+            <h1>Campus Search Assistant</h1>
+            <p>Your guide to campus information</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <p class="tagline">YOUR CAMPUS, SIMPLIFIED</p>
+
+            <h2>How can we help you?</h2>
+
+            <p class="description">
+                Ask questions about campus facilities, student services,
+                accommodation, transport, and more.
+            </p>
+
+            <form class="search-form" action="/" method="POST">
+                <input
+                    type="text"
+                    name="query"
+                    placeholder="Ask something about your campus..."
+                    aria-label="Enter your campus question"
+                    required
+                >
+
+                <button type="submit">Search →</button>
+            </form>
+        </section>
+
+        <section class="topics">
+            <h3>Explore Campus Information</h3>
+
+            <div class="topic-grid">
+                <div class="topic-card">📚 Library</div>
+                <div class="topic-card">🏥 Medical Facility</div>
+                <div class="topic-card">🏠 Hostel</div>
+                <div class="topic-card">🍽️ Cafeteria</div>
+                <div class="topic-card">🚌 Transport</div>
+                <div class="topic-card">🏦 Banking</div>
+                <div class="topic-card">🏏 Sports</div>
+                <div class="topic-card">🌿 Green Campus</div>
+                <div class="topic-card">🛡️ Campus Safety</div>
+                <div class="topic-card">📶 Internet & Network</div>
+                <div class="topic-card">🏢 Administration</div>
+            </div>
+        </section>
+
+        {% if searched %}
+        <section class="results">
+            <h3>Search Results</h3>
+
+            {% if results %}
+                {% for score, item in results %}
+                <article class="result-card">
+                    <h4>{{ item.topic }}</h4>
+                    <p>{{ item.information }}</p>
+
+                    {% if item.source %}
+                    <a href="{{ item.source }}" target="_blank" rel="noopener noreferrer">
+                        View Source ↗
+                    </a>
+                    {% endif %}
+
+                    <p class="score">
+                        Similarity Score: {{ "%.3f"|format(score) }}
+                    </p>
+                </article>
+                {% endfor %}
+            {% else %}
+                <p class="no-results">
+                    No matching information found. Try asking another campus-related question.
+                </p>
+            {% endif %}
+        </section>
+        {% endif %}
+    </main>
+
+    <footer>
+        <p>VFSTR Campus Search Assistant | AI Mini-Capstone Project</p>
+    </footer>
+</body>
+</html>
+
